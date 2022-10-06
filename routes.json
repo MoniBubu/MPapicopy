@@ -1,0 +1,4 @@
+{
+    "api/v10/products": "/products",
+    "/users/:id": "/users/:id"
+}

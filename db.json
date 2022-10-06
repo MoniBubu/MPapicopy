@@ -1,0 +1,67 @@
+{
+  "users": [
+    {
+      "firstname": "Randal",
+      "lastname": "Mills",
+      "age": 35,
+      "email": "Trudie80@hotmail.com",
+      "newsletter": "false",
+      "created": "2022-10-06 09:18",
+      "id": 1
+    },
+    {
+      "firstname": "Alyson",
+      "lastname": "Considine",
+      "age": 35,
+      "email": "Brigitte.Runolfsson@hotmail.com",
+      "newsletter": "false",
+      "created": "2022-10-06 09:19",
+      "id": 2
+    },
+    {
+      "firstname": "Halle",
+      "lastname": "Towne",
+      "age": 35,
+      "email": "Ryder57@hotmail.com",
+      "newsletter": "true",
+      "created": "2022-10-06 09:19",
+      "id": 3
+    },
+    {
+      "firstname": "Lou",
+      "lastname": "Schuppe",
+      "age": 22,
+      "email": "Luigi_Nitzsche95@gmail.com",
+      "newsletter": "false",
+      "created": "2022-10-06 09:19",
+      "id": 4
+    },
+    {
+      "firstname": "Zetta",
+      "lastname": "Macejkovic",
+      "age": 22,
+      "email": "Krista.Orn@yahoo.com",
+      "newsletter": "false",
+      "created": "2022-10-06 09:19",
+      "id": 5
+    },
+    {
+      "firstname": "Ambrose",
+      "lastname": "Weissnat",
+      "age": 22,
+      "email": "Tyra.Green89@yahoo.com",
+      "newsletter": "true",
+      "created": "2022-10-06 09:19",
+      "id": 6
+    },
+    {
+      "firstname": "Angela",
+      "lastname": "Emard",
+      "age": 22,
+      "email": "Camila.Will@yahoo.com",
+      "newsletter": "true",
+      "created": "2022-10-06 09:19",
+      "id": 7
+    }
+  ]
+}
