@@ -1,4 +1,7 @@
-const { body, param } = require('express-validator');
+const { default: axios } = require('axios');
+const { body } = require('express-validator');
+const { UserController } = require('../controllers/user.controller');
+
  
 const getAllUsersValidators = [];
 
@@ -7,9 +10,7 @@ const deleteUserValidator = [];
 const createUserValidators = [
     body('firstname')
         .isString()
-        .withMessage('Firstname should be string')
-        .isLength({ min: 3, max: 20 })
-        .withMessage('Firstname should be between 5 and 55 characters'),
+        .withMessage('Firstname should be string'),
     body('lastname')
         .isString()
         .withMessage('Lastname should be string')
@@ -22,10 +23,24 @@ const createUserValidators = [
         .isEmail()
         .isLength({max: 50})
         .withMessage('Not an e-mail.'),
+    body('email')
+        .custom(value => {
+            return axios.get('http://localhost:3001/users').then((users) => {
+                for(const key of users.data) {
+                    if(key.email === value) {
+                        return Promise.reject('E-mail already exist')
+                    }
+                }
+            })
+        })
+        .withMessage('Email already exist'),
     body('newsletter')
         .optional()
         .isBoolean()
-        .withMessage('Newsletter should be true or false')
+        .withMessage('Newsletter should be true or false'),
+    body('job')
+        .isIn(["manual", "automation"])
+        .withMessage('Job can be only manual or automation')
 ];
 
 const updateUserValidators = [

@@ -3,14 +3,11 @@ const { validationResult, param } = require('express-validator');
 const { createBadRequestResponse } = require('../helpers/bad-request.helper');
 let moment = require('moment');
 const date = moment(Date.now()).format('YYYY-MM-DD HH:mm');
-const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerUI = require('swagger-ui-express');
-
 
 class UserController {
 
     static async getAllUsers(req, res) {
-        const response = await axios.get('http://localhost:27002/users', { params: req.query});
+        const response = await axios.get('http://localhost:27002/users', { params: req.query });
         res.status(200).json(response.data)
     }
 
@@ -26,14 +23,16 @@ class UserController {
     }
 
     static async createUser(req, res) {
+
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
           return createBadRequestResponse(res, errors);
         }
     
         try {
-          const { firstname, lastname, age,  email, newsletter } = req.body;
-          const response = await axios.post('http://localhost:27002/users', { firstname, lastname, age, email, newsletter, created: date });
+          const { firstname, lastname, age,  email, newsletter, job } = req.body;
+          const response = await axios.post('http://localhost:27002/users', { firstname, lastname, age, email, newsletter, job});
+          
           
           res.status(201).json({
             message: 'New user created successfully',
@@ -55,8 +54,8 @@ class UserController {
 
         try {
 
-            const { name, email } = req.body;
-            const response = await axios.put(`http://localhost:27002/users/${req.params.id}`, { name, email, updated: date });
+            const { firstname, lastname, age,  email, newsletter, job } = req.body;
+            const response = await axios.put(`http://localhost:27002/users/${req.params.id}`, { firstname, lastname, age, email, newsletter, job, updated: date });
             
             res.status(200).json({
                 message: 'Update user  successfully',

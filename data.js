@@ -1,18 +1,21 @@
 const { faker } = require('@faker-js/faker');
 
-function generateUsers() {
-    const data = {
-        users: []
-    }
+function generateEmployees () {
+  let employees = []
 
-    for(let i = 0; i < 100; i++) {
-        data.users.push({
-            firstname: faker.name.firstName(),
-            lastname: faker.name.lastName(),
-            age: Math.floor(Math.random() * 50) + 15
-        })
-    } 
-    return data
+  for (const id = 0; id < 50; id++) {
+    let firstName = faker.name.firstName()
+    let lastName = faker.name.lastName()
+    let email = faker.internet.email()
+    
+    employees.push({
+      "id": id,
+      "firstname": firstName,
+      "lastname": lastName,
+      "email": email
+    })
+  }
+  return { "employees": employees }
 }
 
-module.exports = { generateUsers }
+module.exports = generateEmployees

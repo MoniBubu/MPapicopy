@@ -6,12 +6,18 @@ const { createUserValidators, getAllUsersValidators: getUsersValidators, updateU
 const app = express();
 const swaggerUI = require('swagger-ui-express');
 const YAML = require('yamljs');
+const cookieSession = require('cookie-session');
 const swaggerDocument = YAML.load('./swagger.yaml');
-
+const cookieParser = require('cookie-parser');
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.use(express.json());
 app.use(setHeadersMiddleware);
+app.use(cookieParser());
+
+app.get('/', function(req, res) {
+    res.cookie('PHPSESSID', '72wefjm546ee694c4d638d1c24f05a').send('Test request')
+})
 
 app.get('/users', ...getUsersValidators, UserController.getAllUsers);
 

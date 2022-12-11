@@ -1,0 +1,680 @@
+{
+	"info": {
+		"_postman_id": "4084b268-ae98-4c58-8414-d5a9d1c1dbab",
+		"name": "Workshop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18726878"
+	},
+	"item": [
+		{
+			"name": "1. block",
+			"item": [
+				{
+					"name": "Status code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**",
+									" * https://httpstatuses.org/",
+									" * https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#testing-status-codes",
+									" */",
+									"",
+									"pm.test('Assert status code', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// pm.test('Assert status code fail', () => {",
+									"//     pm.response.to.have.status(201);",
+									"// });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "HEAD",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Response time",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**",
+									" * https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#testing-response-times",
+									" * https://www.chaijs.com/api/bdd/#method_below",
+									" */",
+									"",
+									"pm.test('Assert response time', () => {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"",
+									"// pm.test('Assert response time', () => {",
+									"//     pm.expect(pm.response.responseTime).to.be.above(200);",
+									"// });",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "HEAD",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Headers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**",
+									" * https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#testing-headers",
+									" */",
+									"",
+									"pm.test('Assert response headers', () => {",
+									"  pm.expect(pm.response.headers.get('Referrer-Policy')).to.eql('strict-origin-when-cross-origin');",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "HEAD",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cookies",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**",
+									" * https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#testing-cookies",
+									" */",
+									"",
+									"pm.test('Assert cookies', () => {",
+									"  pm.expect(pm.cookies.get('PHPSESSID')).to.eql('72wefjm546ee694c4d638d1c24f05a');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "HEAD",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2.block",
+			"item": [
+				{
+					"name": "JS for tests",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**",
+									" * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach",
+									" * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find",
+									" * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter",
+									" * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push",
+									" */",
+									"",
+									"const json = pm.response.json()",
+									"console.log(json)",
+									"",
+									"json.forEach(item => console.log(item))",
+									"",
+									"json.forEach(item => console.log(item.firstname))",
+									"",
+									"json.forEach(item => {",
+									"    if(item.age > 25) {",
+									"        console.log(item)",
+									"    }",
+									"});",
+									"",
+									"const find = json.find(item => item.newsletter === \"true\")",
+									"console.log(find)",
+									"",
+									"const filter = json.filter(item => item.newsletter === \"true\")",
+									"console.log(filter)",
+									"",
+									"const pushArray = []",
+									"const lastnames = json.forEach(item => {",
+									"    pushArray.push(item.lastname)",
+									"})",
+									"console.log(pushArray)",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**",
+									" * https://www.chaijs.com/api/bdd/#method_keys",
+									" * https://www.chaijs.com/api/bdd/#method_a",
+									" * https://www.chaijs.com/api/bdd/#method_empty",
+									" */",
+									"",
+									"const json = pm.response.json();",
+									"",
+									"pm.test('Have all keys', () => {",
+									"    json.forEach(item => {",
+									"        pm.expect(item).to.have.keys('firstname', 'lastname', 'age', 'email', 'newsletter', 'created', 'id')",
+									"    });",
+									"});",
+									"",
+									"pm.test('Assert value type', () => {",
+									"    json.forEach(item => {",
+									"        pm.expect(item.firstname).to.be.a('string')",
+									"        pm.expect(item.age).to.be.a('number')",
+									"    });",
+									"});",
+									"",
+									"pm.test('Assert target length', () => {",
+									"    json.forEach(item => {",
+									"        pm.expect(item.firstname).not.to.be.empty",
+									"    });",
+									"});",
+									"",
+									"pm.test('Assert null', () => {",
+									"    json.forEach(item => {",
+									"        pm.expect(item.age).not.to.be.null",
+									"    });",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users - sort ASC",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json();",
+									"let moment = require('moment')",
+									"",
+									"json.forEach((item,index) => {",
+									"",
+									"    if(index < json.length - 1) {",
+									"        pm.test('ASC created date', () => {",
+									"            pm.expect(moment(json[index].created).isBefore(json[index + 1].created)).to.be.true",
+									"        });",
+									"        ",
+									"    }",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/users?_sort=created&_order=asc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "_sort",
+									"value": "created"
+								},
+								{
+									"key": "_order",
+									"value": "asc",
+									"description": "asc, desc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users - sort DESC",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json();",
+									"let moment = require('moment')",
+									"",
+									"json.forEach((item,index) => {",
+									"",
+									"    if(index < json.length - 1) {",
+									"        pm.test('DESC created date', () => {",
+									"            pm.expect(moment(json[index].created).isBefore(json[index + 1].created)).to.be.false",
+									"        });",
+									"    }",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/users?_sort=created&_order=asc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "_sort",
+									"value": "created"
+								},
+								{
+									"key": "_order",
+									"value": "asc",
+									"description": "asc, desc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get specific limit users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**",
+									" * https://www.chaijs.com/api/bdd/#method_lengthof",
+									" */",
+									"",
+									"const json = pm.response.json();",
+									"",
+									"pm.test('Length', () =>{",
+									"    pm.expect(pm.response.json()).to.have.lengthOf(3)",
+									"});",
+									"",
+									"pm.test('Length above', () =>{",
+									"    pm.expect(pm.response.json()).to.have.lengthOf.above(2)",
+									"});",
+									"",
+									"pm.test('Length below', () =>{",
+									"    pm.expect(pm.response.json()).to.have.lengthOf.below(4)",
+									"});",
+									"",
+									"pm.test('Length at least', () => {",
+									"    pm.expect(pm.response.json()).to.have.lengthOf.at.least(3)",
+									"});",
+									"",
+									"pm.test('Length at most', () => {",
+									"    pm.expect(pm.response.json()).to.have.lengthOf.at.most(3)",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/users?_limit=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "_limit",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get specific range age users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**",
+									" * https://www.chaijs.com/api/bdd/#method_within",
+									" */",
+									"",
+									"const json = pm.response.json();",
+									"",
+									"json.forEach(item => {",
+									"    pm.test('Range', () => {",
+									"        pm.expect(item.age).to.be.within(20, 30)",
+									"    })",
+									"",
+									"    pm.test('Age less than', () => {",
+									"        pm.expect(item.age).is.lessThanOrEqual(30)",
+									"    });",
+									"",
+									"    pm.test('Age greater than', () => {",
+									"        pm.expect(item.age).is.greaterThanOrEqual(20)",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/users?age_gte=20&age_lte=30",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "age_gte",
+									"value": "20"
+								},
+								{
+									"key": "age_lte",
+									"value": "30"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get specific users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**",
+									" * https://www.chaijs.com/api/bdd/#method_equal",
+									" * https://www.chaijs.com/api/bdd/#method_eql",
+									" */",
+									"",
+									"const json = pm.response.json();",
+									"",
+									"const deepEqual = {",
+									"    \"firstname\": \"Alyson\",",
+									"    \"lastname\": \"Considine\",",
+									"    \"age\": 35,",
+									"    \"email\": \"Brigitte.Runolfsson@hotmail.com\",",
+									"    \"newsletter\": \"false\",",
+									"    \"created\": \"2022-10-06 09:19\",",
+									"    \"id\": 1",
+									"}",
+									"",
+									"const notDeeplEqual = {",
+									"    \"firstname\": \"Alyson\",",
+									"    \"lastname\": \"Considine\",",
+									"    \"age\": 35,",
+									"    \"email\": \"testEmail\",",
+									"    \"newsletter\": \"false\",",
+									"    \"created\": \"2022-10-06 09:19\",",
+									"    \"id\": 1",
+									"}",
+									"",
+									"pm.test('Path param equal', () => {",
+									"    pm.expect(json.id).is.to.equal(1)",
+									"});",
+									"",
+									"pm.test('Path param not equal', () => {",
+									"    pm.expect(json.id).is.not.equal",
+									"});",
+									"",
+									"pm.test('Path param deep equal', () => {",
+									"    pm.expect(json).is.to.eql(deepEqual)",
+									"});",
+									"",
+									"pm.test('Path param is not deep equal', () => {",
+									"    pm.expect(json).is.not.eql(notDeeplEqual)",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/users/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3.block",
+			"item": [
+				{
+					"name": "Create user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstname\": \"Test\",\n    \"lastname\": \"test\",\n    \"age\": 5,\n    \"email\": \"test@gmail.com\",\n    \"job\": \"manual\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstname\": \"Test\",\n    \"lastname\": \"test\",\n    \"age\": 5,\n    \"email\": \"test@gmail.com\",\n    \"job\": \"manual\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/users/15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/users/15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"15"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
