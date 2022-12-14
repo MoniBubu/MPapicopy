@@ -6,9 +6,11 @@ servers:
   - url: http://localhost:3001
 tags:
   - name: user
-    description: Endpoints about user
+    description: User endpoints
   - name: auth
     description: Basic auth endpoint
+  - name: product
+    description: Product endpoints
 paths:
   /auth:
     get:
@@ -132,6 +134,110 @@ paths:
         "404":
           description: User not found
 
+  /products:
+    get:
+      tags:
+        - product
+      summary: Get all products
+      parameters:
+        - name: _limit
+          in: query
+          description: Get specific count of products
+          schema:
+            type: number
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+    post:
+      tags:
+        - product
+      summary: Create user
+      requestBody:
+        description: Created product object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+  /products/{id}:
+    get:
+      tags:
+        - product
+      summary: Get product by user ID
+      parameters:
+        - name: id
+          in: path
+          description: "The name that needs to be fetched. Use user1 for testing. "
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Bad request
+        "404":
+          description: Product not found
+    put:
+      tags:
+        - product
+      summary: Update product
+      parameters:
+        - name: id
+          in: path
+          description: name that need to be update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent product
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/User"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        default:
+          description: successful operation
+    delete:
+      tags:
+        - product
+      summary: Delete product
+      parameters:
+        - name: id
+          in: path
+          description: The name that needs to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        "400":
+          description: Invalid ID format
+        "404":
+          description: product not found
+
 components:
   securitySchemes:
     basicAuth:
@@ -147,6 +253,7 @@ components:
         - lastName
         - age
         - email
+        - job
       properties:
         id:
           type: number
@@ -164,6 +271,40 @@ components:
           type: string
           example: john@email.com
         newsletter:
+          type: boolean
+          example: true
+        job:
+          type: string
+          enum: [manual, automation]
+          example: "manual"
+      xml:
+        name: user
+    Product:
+      type: object
+      required:
+        - id
+        - product
+        - name
+        - price
+        - material
+        - inStock
+      properties:
+        id:
+          type: number
+          example: 10
+        product:
+          type: string
+          example: Protein
+        name:
+          type: string
+          example: Just Whey
+        price:
+          type: number
+          example: 45.67
+        material:
+          type: string
+          example: Milch
+        inStock:
           type: boolean
           example: true
       xml:
