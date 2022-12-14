@@ -63,6 +63,61 @@
       "created": "2022-10-06 09:19",
       "id": 7
     }
+  ],
+  "products": [
+    {
+      "product": "Keyboard",
+      "name": "Unbranded Rubber Car",
+      "price": 48.19,
+      "material": "Rubber",
+      "inStock": true,
+      "updated": "2022-12-14 20:27",
+      "id": 1
+    },
+    {
+      "product": "Salad",
+      "name": "Awesome Wooden Chips",
+      "price": 391.44,
+      "material": "Fresh",
+      "inStock": true,
+      "updated": "2022-12-14 20:35",
+      "id": 2
+    },
+    {
+      "product": "Computer",
+      "name": "Practical Cotton Shoes",
+      "price": 16.65,
+      "material": "Wooden",
+      "inStock": true,
+      "updated": "2022-12-14 20:28",
+      "id": 3
+    },
+    {
+      "product": "Shirt",
+      "name": "Gorgeous Soft Chicken",
+      "price": 960.47,
+      "material": "Concrete",
+      "inStock": false,
+      "updated": "2022-12-14 20:28",
+      "id": 4
+    },
+    {
+      "product": "Pizza",
+      "name": "Handcrafted Fresh Sausages",
+      "price": 99.61,
+      "material": "Cotton",
+      "inStock": true,
+      "updated": "2022-12-14 20:28",
+      "id": 5
+    },
+    {
+      "product": "Test product",
+      "name": "Test name",
+      "price": 132.49,
+      "material": "Fresh",
+      "inStock": true,
+      "updated": "2022-12-14 20:55",
+      "id": 6
+    }
   ]
 }
-

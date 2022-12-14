@@ -1,13 +1,11 @@
 const { default: axios } = require('axios');
 const { body } = require('express-validator');
-const { UserController } = require('../controllers/user.controller');
-
  
 const getAllUsersValidators = [];
 
 const deleteUserValidator = [];
  
-const createUserValidators = [
+const createOrUpdateUserValidators = [
     body('firstname')
         .isString()
         .withMessage('Firstname should be string'),
@@ -43,21 +41,8 @@ const createUserValidators = [
         .withMessage('Job can be only manual or automation')
 ];
 
-const updateUserValidators = [
-    body('email')
-        .optional()
-        .isEmail()
-        .isLength({max: 50})
-        .withMessage('Not an e-mail.'),
-    body('newsletter')
-        .optional()
-        .isBoolean()
-        .withMessage('Newsletter should be true or false')
-];
-
 module.exports = {
-    createUserValidators,
+    createOrUpdateUserValidators,
     getAllUsersValidators,
-    updateUserValidators,
     deleteUserValidator
 };

@@ -4,16 +4,16 @@ const { createBadRequestResponse } = require('../helpers/bad-request.helper');
 let moment = require('moment');
 const date = moment(Date.now()).format('YYYY-MM-DD HH:mm');
 
-class UserController {
+class ProductController {
 
-    static async getAllUsers(req, res) {
-        const response = await axios.get('http://localhost:27002/users', { params: req.query });
+    static async getAllProducts(req, res) {
+        const response = await axios.get('http://localhost:27002/products', { params: req.query });
         res.status(200).json(response.data)
     }
 
-    static async getSpecificUser(req, res) {
+    static async getSpecificProduct(req, res) {
         try {
-            const response = await axios.get(`http://localhost:27002/users/${req.params.id}`)
+            const response = await axios.get(`http://localhost:27002/products/${req.params.id}`)
             res.status(200).json(response.data)   
         } catch(err) {
             res.status(400).json({
@@ -22,7 +22,7 @@ class UserController {
           }
     }
 
-    static async createUser(req, res) {
+    static async createProduct(req, res) {
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -30,12 +30,11 @@ class UserController {
         }
     
         try {
-          const { firstname, lastname, age,  email, newsletter, job } = req.body;
-          const response = await axios.post('http://localhost:27002/users', { firstname, lastname, age, email, newsletter, job});
-          
+          const { product, name, price, material, inStock } = req.body;
+          const response = await axios.post('http://localhost:27002/products', { product, name, price, material, inStock, updated: date });
           
           res.status(201).json({
-            message: 'New user created successfully',
+            message: 'New product created successfully',
             user: await response.data,
           });
           
@@ -46,7 +45,7 @@ class UserController {
         }
     }
 
-    static async updateUser(req,res) {
+    static async updateProduct(req,res) {
         const errors = validationResult(req);
         if(!errors.isEmpty()) {
             return createBadRequestResponse(res,errors);
@@ -54,32 +53,32 @@ class UserController {
 
         try {
 
-            const { firstname, lastname, age,  email, newsletter, job } = req.body;
-            const response = await axios.put(`http://localhost:27002/users/${req.params.id}`, { firstname, lastname, age, email, newsletter, job, updated: date });
+            const { product, name, price, material, inStock } = req.body;
+            const response = await axios.put(`http://localhost:27002/products/${req.params.id}`, { product, name, price, material, inStock, updated: date });
             
             res.status(200).json({
-                message: 'Update user  successfully',
+                message: 'Update product successfully',
                 user: await response.data,
                 created: moment(Date.now()).format('YYYY-MM-DD HH:mm')
             });
 
         } catch (err) {     
             res.status(404).json({
-                message: 'User not found'
+                message: 'Product not found'
             })
         }
     }
 
-    static async deleteUser(req,res) {
+    static async deleteProduct(req,res) {
         try {
-            await axios.delete(`http://localhost:27002/users/${req.params.id}`);
+            await axios.delete(`http://localhost:27002/products/${req.params.id}`);
             res.status(200).json(true)
         } catch(err) {
             res.status(404).json({
-                message: 'User not found'
+                message: 'Product not found'
             })
         }
     }
 }
 
-module.exports = { UserController };
+module.exports = { ProductController };

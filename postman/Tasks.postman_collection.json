@@ -1,0 +1,222 @@
+{
+	"info": {
+		"_postman_id": "c135c7b6-7056-47fd-8768-491145c2e703",
+		"name": "Tasks",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18726878"
+	},
+	"item": [
+		{
+			"name": "Head",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/**",
+							" * https://httpstatuses.org/",
+							" * https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#testing-status-codes",
+							" */",
+							"",
+							"pm.test('Assert status', () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('Assert code', () => {",
+							"    pm.expect(pm.response.code).is.eq(200)",
+							"});",
+							"",
+							"pm.test('Status', () => {",
+							"    pm.response.to.have.status('OK')",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "HEAD",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/products?_limit=3&_sort=updated&_order=desc&price_gte=20&price_lte=400",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "_limit",
+							"value": "3"
+						},
+						{
+							"key": "_sort",
+							"value": "updated"
+						},
+						{
+							"key": "_order",
+							"value": "desc"
+						},
+						{
+							"key": "price_gte",
+							"value": "20"
+						},
+						{
+							"key": "price_lte",
+							"value": "400"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get specific product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/products/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"product\": \"\",\n    \"name\": \"Test name\",\n    \"price\": 123.4,\n    \"material\": \"Iron\",\n    \"inStock\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create product - dynamic variables",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"product\": \"{{$randomProduct}}\",\n    \"name\": \"{{$randomProductName}}\",\n    \"price\": {{$randomPrice}},\n    \"material\": \"{{$randomProductMaterial}}\",\n    \"inStock\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Updated product",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"product\": \"{{$randomProduct}}\",\n    \"name\": \"{{$randomProductName}}\",\n    \"price\": {{$randomPrice}},\n    \"material\": \"{{$randomProductMaterial}}\",\n    \"inStock\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/products/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"products",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete product",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/products/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"products",
+						"6"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
