@@ -68,6 +68,10 @@
 							"    pm.expect(pm.response.responseTime).to.be.below(200);",
 							"});",
 							"",
+							"pm.test('Assert response time', () => {",
+							"    pm.expect(pm.response.responseTime).to.be.above(1);",
+							"});",
+							"",
 							"",
 							"// pm.test('Assert response time', () => {",
 							"//     pm.expect(pm.response.responseTime).to.be.above(200);",
@@ -106,8 +110,12 @@
 							" * https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#testing-headers",
 							" */",
 							"",
-							"pm.test('Assert response headers', () => {",
+							"pm.test('Assert equal response headers', () => {",
 							"  pm.expect(pm.response.headers.get('Referrer-Policy')).to.eql('strict-origin-when-cross-origin');",
+							"});",
+							"",
+							"pm.test('Assert contain response headers', () => {",
+							"  pm.expect(pm.response.headers.get('Referrer-Policy')).to.contain('strict-origin-when-cross-origin');",
 							"});",
 							"",
 							""
@@ -156,15 +164,12 @@
 				"method": "HEAD",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3001/",
+					"raw": "http://localhost:3001",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3001",
-					"path": [
-						""
-					]
+					"port": "3001"
 				}
 			},
 			"response": []
@@ -248,7 +253,7 @@
 							"",
 							"pm.test('Have all keys', () => {",
 							"    json.forEach(item => {",
-							"        pm.expect(item).to.have.keys('firstname', 'lastname', 'age', 'email', 'newsletter', 'created', 'id')",
+							"        pm.expect(item).to.have.all.keys(['firstname', 'lastname', 'age', 'email', 'newsletter', 'created', 'id'])",
 							"    });",
 							"});",
 							"",
@@ -259,7 +264,7 @@
 							"    });",
 							"});",
 							"",
-							"pm.test('Assert target length', () => {",
+							"pm.test('Assert empty', () => {",
 							"    json.forEach(item => {",
 							"        pm.expect(item.firstname).not.to.be.empty",
 							"    });",
@@ -300,8 +305,14 @@
 					"listen": "test",
 					"script": {
 						"exec": [
+							"/**",
+							" * https://momentjs.com/",
+							" * ascending (smallest value first)",
+							" * https://momentjs.com/docs/#/query/is-after/",
+							" */",
+							"",
 							"const json = pm.response.json();",
-							"let moment = require('moment')",
+							"let moment = require('moment');",
 							"",
 							"json.forEach((item,index) => {",
 							"",
@@ -311,7 +322,9 @@
 							"        });",
 							"        ",
 							"    }",
-							"})",
+							"});",
+							"",
+							"pm.expect('')",
 							""
 						],
 						"type": "text/javascript"
@@ -353,8 +366,14 @@
 					"listen": "test",
 					"script": {
 						"exec": [
+							"/**",
+							" * https://momentjs.com/",
+							" * descending (largest value first)",
+							" * https://momentjs.com/docs/#/query/is-before/",
+							" */",
+							"",
 							"const json = pm.response.json();",
-							"let moment = require('moment')",
+							"let moment = require('moment');",
 							"",
 							"json.forEach((item,index) => {",
 							"",
@@ -374,7 +393,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3001/users?_sort=created&_order=asc",
+					"raw": "http://localhost:3001/users?_sort=created&_order=desc",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -390,7 +409,7 @@
 						},
 						{
 							"key": "_order",
-							"value": "asc",
+							"value": "desc",
 							"description": "asc, desc"
 						}
 					]
@@ -533,12 +552,12 @@
 							"const deepEqual = {",
 							"    \"firstname\": \"Alyson\",",
 							"    \"lastname\": \"Considine\",",
-							"    \"age\": 35,",
+							"    \"age\": 28,",
 							"    \"email\": \"Brigitte.Runolfsson@hotmail.com\",",
 							"    \"newsletter\": \"false\",",
-							"    \"created\": \"2022-10-06 09:19\",",
+							"    \"created\": \"2022-10-06 08:19\",",
 							"    \"id\": 1",
-							"}",
+							"};",
 							"",
 							"const notDeeplEqual = {",
 							"    \"firstname\": \"Alyson\",",
@@ -548,7 +567,7 @@
 							"    \"newsletter\": \"false\",",
 							"    \"created\": \"2022-10-06 09:19\",",
 							"    \"id\": 1",
-							"}",
+							"};",
 							"",
 							"pm.test('Path param equal', () => {",
 							"    pm.expect(json.id).is.to.equal(1)",
@@ -1074,6 +1093,210 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Basic auth",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/auth",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get specific users - mock server",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/**",
+							" * https://www.chaijs.com/api/bdd/#method_equal",
+							" * https://www.chaijs.com/api/bdd/#method_eql",
+							" */",
+							"",
+							"const json = pm.response.json();",
+							"",
+							"const deepEqual = {",
+							"    \"firstname\": \"Alyson\",",
+							"    \"lastname\": \"Considine\",",
+							"    \"age\": 28,",
+							"    \"email\": \"Brigitte.Runolfsson@hotmail.com\",",
+							"    \"newsletter\": \"false\",",
+							"    \"created\": \"2022-10-06 08:19\",",
+							"    \"id\": 1",
+							"}",
+							"",
+							"const notDeeplEqual = {",
+							"    \"firstname\": \"Alyson\",",
+							"    \"lastname\": \"Considine\",",
+							"    \"age\": 35,",
+							"    \"email\": \"testEmail\",",
+							"    \"newsletter\": \"false\",",
+							"    \"created\": \"2022-10-06 09:19\",",
+							"    \"id\": 1",
+							"}",
+							"",
+							"pm.test('Path param equal', () => {",
+							"    pm.expect(json.id).is.to.equal(1)",
+							"});",
+							"",
+							"pm.test('Path param not equal', () => {",
+							"    pm.expect(json.id).is.not.equal",
+							"});",
+							"",
+							"pm.test('Path param deep equal', () => {",
+							"    pm.expect(json).is.to.eql(deepEqual)",
+							"});",
+							"",
+							"pm.test('Path param is not deep equal', () => {",
+							"    pm.expect(json).is.not.eql(notDeeplEqual)",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/users/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get specific users - mock server",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"firstname\": \"Alyson\",\n    \"lastname\": \"Considine\",\n    \"age\": 28,\n    \"email\": \"Brigitte.Runolfsson@hotmail.com\",\n    \"newsletter\": \"false\",\n    \"created\": \"2022-10-06 08:19\",\n    \"id\": 1\n}"
+				}
+			]
+		},
+		{
+			"name": "Get specific limit users - mock server",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/**",
+							" * https://www.chaijs.com/api/bdd/#method_lengthof",
+							" */",
+							"",
+							"const json = pm.response.json();",
+							"",
+							"pm.test('Length', () =>{",
+							"    pm.expect(pm.response.json()).to.have.lengthOf(3)",
+							"});",
+							"",
+							"pm.test('Length above', () =>{",
+							"    pm.expect(pm.response.json()).to.have.lengthOf.above(2)",
+							"});",
+							"",
+							"pm.test('Length below', () =>{",
+							"    pm.expect(pm.response.json()).to.have.lengthOf.below(4)",
+							"});",
+							"",
+							"pm.test('Length at least', () => {",
+							"    pm.expect(pm.response.json()).to.have.lengthOf.at.least(3)",
+							"});",
+							"",
+							"pm.test('Length at most', () => {",
+							"    pm.expect(pm.response.json()).to.have.lengthOf.at.most(3)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/users?_limit=3",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "_limit",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get specific limit users - mock server",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users?_limit=3",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "_limit",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "[\n    {\n        \"firstname\": \"Alyson\",\n        \"lastname\": \"Considine\",\n        \"age\": 28,\n        \"email\": \"Brigitte.Runolfsson@hotmail.com\",\n        \"newsletter\": \"false\",\n        \"created\": \"2022-10-06 08:19\",\n        \"id\": 1\n    },\n    {\n        \"firstname\": \"Halle\",\n        \"lastname\": \"Towne\",\n        \"age\": 35,\n        \"email\": \"Ryder57@hotmail.com\",\n        \"newsletter\": \"true\",\n        \"created\": \"2022-10-06 05:19\",\n        \"id\": 2\n    },\n    {\n        \"firstname\": \"Lou\",\n        \"lastname\": \"Schuppe\",\n        \"age\": 22,\n        \"email\": \"Luigi_Nitzsche95@gmail.com\",\n        \"newsletter\": \"false\",\n        \"created\": \"2022-10-06 14:22\",\n        \"id\": 3\n    }\n]"
+				}
+			]
 		}
 	],
 	"event": [

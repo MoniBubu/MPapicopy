@@ -19,9 +19,14 @@ app.use(cookieParser());
 app.get('/', function(req, res) {
     res
         .cookie('PHPSESSID', '72wefjm546ee694c4d638d1c24f05a')
-        .cookie('Job', 'AutomationTester')
         .send('Test request');
-})
+});
+
+app.get('/base', function(req,res) {
+    res
+        .cookie('Job', 'AutomationTester')
+        .send(500)
+});
 
 app.get('/users', ...getUsersValidators, UserController.getAllUsers);
 app.get('/users/:id', getUsersValidators, UserController.getSpecificUser);

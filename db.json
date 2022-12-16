@@ -95,7 +95,7 @@
     {
       "product": "Shirt",
       "name": "Gorgeous Soft Chicken",
-      "price": 960.47,
+      "price": 340.47,
       "material": "Concrete",
       "inStock": false,
       "updated": "2022-12-14 20:28",
@@ -118,6 +118,33 @@
       "inStock": true,
       "updated": "2022-12-14 20:55",
       "id": 6
+    },
+    {
+      "product": "Keyboard",
+      "name": "Test name",
+      "price": 110.4,
+      "material": "Iron",
+      "inStock": true,
+      "updated": "2022-12-16 10:23",
+      "id": 7
+    },
+    {
+      "product": "Keyboard",
+      "name": "Test name",
+      "price": 101.4,
+      "material": "Iron",
+      "inStock": true,
+      "updated": "2022-12-16 10:27",
+      "id": 8
+    },
+    {
+      "product": "Keyboard",
+      "name": "Test name",
+      "price": 90.4,
+      "material": "Iron",
+      "inStock": true,
+      "updated": "2022-12-16 10:28",
+      "id": 9
     }
   ]
 }

@@ -35,7 +35,7 @@ class ProductController {
           
           res.status(201).json({
             message: 'New product created successfully',
-            user: await response.data,
+            item: await response.data,
           });
           
         } catch(err) {
@@ -58,7 +58,7 @@ class ProductController {
             
             res.status(200).json({
                 message: 'Update product successfully',
-                user: await response.data,
+                item: await response.data,
                 created: moment(Date.now()).format('YYYY-MM-DD HH:mm')
             });
 

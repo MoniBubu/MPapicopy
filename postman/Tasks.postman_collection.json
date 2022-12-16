@@ -13,22 +13,43 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"/**",
-							" * https://httpstatuses.org/",
-							" * https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#testing-status-codes",
-							" */",
-							"",
+							"// overit status code 500 ",
 							"pm.test('Assert status', () => {",
-							"    pm.response.to.have.status(200);",
+							"    pm.response.to.have.status(500);",
 							"});",
 							"",
-							"pm.test('Assert code', () => {",
-							"    pm.expect(pm.response.code).is.eq(200)",
+							"// overit ze response time je menej ako 100ms a viac ako 5ms",
+							"pm.test('Assert response time', () => {",
+							"    pm.expect(pm.response.responseTime).to.be.below(100);",
 							"});",
 							"",
+							"pm.test('Assert response time', () => {",
+							"    pm.expect(pm.response.responseTime).to.be.above(5);",
+							"});",
+							"",
+							"// overit ze response headers obsahuje Content-type je application/json",
+							"pm.test('Assert contain response headers', () => {",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.contain('application/json');",
+							"});",
+							"",
+							"// overit ze cookies Job ma hodnotu AutomationTester",
+							"pm.test('Assert cookies', () => {",
+							"  pm.expect(pm.cookies.get('Job')).to.eql('AutomationTester');",
+							"});",
+							"",
+							"// overit ze status je Internal Server Error",
 							"pm.test('Status', () => {",
-							"    pm.response.to.have.status('OK')",
+							"    pm.response.to.have.status('Internal Server Error')",
 							"});",
+							"",
+							"",
+							"// overit ze response ma body ",
+							"pm.test('Response must be valid and have body', ()=> {",
+							"    pm.expect(pm.response.to.be.withBody);",
+							"    // zmeni request na GET",
+							"});",
+							"",
+							"",
 							""
 						],
 						"type": "text/javascript"
@@ -39,26 +60,74 @@
 				"method": "HEAD",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3001/",
+					"raw": "http://localhost:3001/base",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3001",
 					"path": [
-						""
+						"base"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Get all products",
+			"name": "Get products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const json = pm.response.json();",
+							"",
+							"// overit ze kazdy item ma kluce material a product pomocou include",
+							"pm.test('Include all keys', () => {",
+							"    json.forEach(item => {",
+							"        pm.expect(item).to.include.keys(['material', 'product']);",
+							"    });",
+							"});",
+							"",
+							"// overit ze vsetky ceny produktov su typu number a nie je prazdna",
+							"pm.test('Assert value type number', () => {",
+							"    json.forEach(item => {",
+							"        pm.expect(item.price).to.be.a('number');",
+							"        pm.expect(item.price).is.not.null",
+							"    });",
+							"});",
+							"",
+							"// vytvorit query ktora nam vrati response ktory bude obsahovat 5 itemov",
+							" pm.test('Length', () =>{",
+							"    pm.expect(json).to.have.lengthOf(5)",
+							"});",
+							"",
+							"// zoradit prvky podla ceny od najvacsej ceny po najmensiu a overit ze prvy cena prveho produktu je vacsia ako cena druheho produktu",
+							"pm.test('First item is bigger than second item', () => {",
+							"    pm.expect(json[0].price).to.be.greaterThan(json[1].price)",
+							"});",
+							"",
+							"// cena je vacsia ako 100 a mensia ako 400",
+							"pm.test('Greter than 100 and less than 400', () => {",
+							"    json.forEach(item => {",
+							"        pm.expect(item.price).to.be.within(100, 400);",
+							"    });",
+							"});",
+							"",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3001/products?_limit=3&_sort=updated&_order=desc&price_gte=20&price_lte=400",
+					"raw": "http://localhost:3001/products?_limit=5&_sort=price&_order=desc&price_gte=100&price_lte=400",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -70,11 +139,11 @@
 					"query": [
 						{
 							"key": "_limit",
-							"value": "3"
+							"value": "5"
 						},
 						{
 							"key": "_sort",
-							"value": "updated"
+							"value": "price"
 						},
 						{
 							"key": "_order",
@@ -82,7 +151,7 @@
 						},
 						{
 							"key": "price_gte",
-							"value": "20"
+							"value": "100"
 						},
 						{
 							"key": "price_lte",
@@ -120,7 +189,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"product\": \"\",\n    \"name\": \"Test name\",\n    \"price\": 123.4,\n    \"material\": \"Iron\",\n    \"inStock\": true\n}",
+					"raw": "{\n    \"product\": \"Keyboard\",\n    \"name\": \"Test name\",\n    \"price\": 123.4,\n    \"material\": \"Iron\",\n    \"inStock\": true\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -213,6 +282,36 @@
 					"path": [
 						"products",
 						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3001/products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"products"
 					]
 				}
 			},
