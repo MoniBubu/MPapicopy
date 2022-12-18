@@ -26,6 +26,7 @@ const createOrUpdateUserValidators = [
         .custom(value => {
             return axios.get('http://localhost:3001/users').then((users) => {
                 for(const key of users.data) {
+                    console.log(value)
                     if(key.email === value) {
                         return Promise.reject('E-mail already exist')
                     }

@@ -1,4 +1,5 @@
 const { body } = require('express-validator');
+const { default: axios } = require('axios');
 
 const getAllProductsValidator = [];
 
@@ -10,7 +11,8 @@ const createOrUpdateItemvalidator = [
         .withMessage('Product should be string')
         .not()
         .isEmpty()
-        .withMessage('Product can not be empty')
+        .withMessage('Product can not be empty'),
+    body('product')
         .custom(value => {
             return axios.get('http://localhost:3001/products').then((products) => {
                 for(const key of products.data) {
