@@ -276,6 +276,7 @@
 							"}`;",
 							"",
 							"// ulozit do premmenny kolekcie price a product",
+							"// prerobit aby v path parameteri sa pouzivali premenne kolekcie namiesto statickych premennych",
 							"pm.collectionVariables.set('createdProductPrice', json.item.price);",
 							"pm.collectionVariables.set('createdProductName', json.item.name);",
 							""
@@ -298,7 +299,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"product\": \"Test\",\n    \"name\": \"Test name\",\n    \"price\": 123.4,\n    \"material\": \"Test material\",\n    \"inStock\": true\n}\n\n\n",
+					"raw": "{\n    \"product\": \"Test\",\n    \"name\": \"Test name\",\n    \"price\": 123.4,\n    \"material\": \"Test material\",\n    \"inStock\": true\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -367,7 +368,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3001/products/8",
+					"raw": "http://localhost:3001/products/{{productsId}}",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -375,7 +376,7 @@
 					"port": "3001",
 					"path": [
 						"products",
-						"8"
+						"{{productsId}}"
 					]
 				}
 			},
@@ -412,6 +413,174 @@
 					"path": [
 						"products",
 						"{{productsId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5 - Create product fail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// zostavit POST request ktory vrati status code 400 bad request",
+							"",
+							"const json = pm.response.json();",
+							"",
+							"pm.test('Bad request', () => {",
+							"    pm.expect(json.error).is.not.null",
+							"});",
+							"",
+							"pm.test('Status', () => {",
+							"    pm.response.to.have.status('Bad Request')",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6 - Validate JSON schema",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const schema = {",
+							"    \"type\" : \"object\",",
+							"    \"required\" : [\"id\", \"product\", \"name\", \"price\", \"material\"],",
+							"    \"properties\": {",
+							"        \"id\" : {",
+							"            \"type\": \"number\",",
+							"            \"minimum\": 0,",
+							"            \"pattern\": \"[0-9]\"",
+							"        },",
+							"        \"product\": {",
+							"            \"type\": \"string\",",
+							"            \"pattern\": \"[A-Za-z]\"",
+							"        },",
+							"        \"name\": {",
+							"            \"type\": \"string\",",
+							"            \"pattern\": \"[A-Za-z]\"",
+							"        },",
+							"        \"price\": {",
+							"            \"type\": \"number\",",
+							"            \"minimum\": 1,",
+							"            \"maximum\": 1000",
+							"        },",
+							"        \"material\": {",
+							"            \"type\": \"string\",",
+							"        },",
+							"        \"newsletter\": {",
+							"            \"type\": \"string\",",
+							"            \"enum\": [\"true\",\"false\"]",
+							"        }",
+							"    }",
+							"}",
+							"",
+							"pm.test(\"Response should match schema\", ()=> {",
+							"    pm.expect(pm.response.json()).to.have.jsonSchema(schema);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/products/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7 - Validate JSON schema data variables",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const schema = {",
+							"    \"type\" : \"object\",",
+							"    \"required\" : [\"id\", \"product\", \"name\", \"price\", \"material\"],",
+							"    \"properties\": {",
+							"        \"id\" : {",
+							"            \"type\": \"number\",",
+							"            \"minimum\": 0,",
+							"            \"pattern\": \"[0-9]\"",
+							"        },",
+							"        \"product\": {",
+							"            \"type\": \"string\",",
+							"            \"pattern\": \"[A-Za-z]\"",
+							"        },",
+							"        \"name\": {",
+							"            \"type\": \"string\",",
+							"            \"pattern\": \"[A-Za-z]\"",
+							"        },",
+							"        \"price\": {",
+							"            \"type\": \"number\",",
+							"            \"minimum\": 1,",
+							"            \"maximum\": 1000",
+							"        },",
+							"        \"material\": {",
+							"            \"type\": \"string\",",
+							"        },",
+							"        \"newsletter\": {",
+							"            \"type\": \"string\",",
+							"            \"enum\": [\"true\",\"false\"]",
+							"        }",
+							"    }",
+							"}",
+							"",
+							"pm.test(\"Response should match schema\", ()=> {",
+							"    pm.expect(pm.response.json()).to.have.jsonSchema(schema);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/products/{{product}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"products",
+						"{{product}}"
 					]
 				}
 			},
